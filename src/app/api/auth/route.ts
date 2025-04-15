@@ -14,13 +14,13 @@ export async function POST(request: Request) {
     }
     
     if (action === 'signin') {
-      const { data, error } = await supabase.auth.signInWithPassword({
+      const { data, error: signInError } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
       
-      if (error) {
-        return NextResponse.json({ error: error.message }, { status: 401 });
+      if (signInError) {
+        return NextResponse.json({ error: signInError.message }, { status: 401 });
       }
       
       return NextResponse.json({
@@ -28,13 +28,13 @@ export async function POST(request: Request) {
         session: data.session,
       });
     } else if (action === 'signup') {
-      const { data, error } = await supabase.auth.signUp({
+      const { data, error: signUpError } = await supabase.auth.signUp({
         email,
         password,
       });
       
-      if (error) {
-        return NextResponse.json({ error: error.message }, { status: 400 });
+      if (signUpError) {
+        return NextResponse.json({ error: signUpError.message }, { status: 400 });
       }
       
       return NextResponse.json({
@@ -44,21 +44,21 @@ export async function POST(request: Request) {
     } else {
       return NextResponse.json({ error: 'Azione non valida' }, { status: 400 });
     }
-  } catch (error) {
+  } catch (err) {
     return NextResponse.json({ error: 'Errore durante l\'autenticazione' }, { status: 500 });
   }
 }
 
-export async function DELETE(request: Request) {
+export async function DELETE() {
   try {
-    const { error } = await supabase.auth.signOut();
+    const { error: signOutError } = await supabase.auth.signOut();
     
-    if (error) {
-      return NextResponse.json({ error: error.message }, { status: 400 });
+    if (signOutError) {
+      return NextResponse.json({ error: signOutError.message }, { status: 400 });
     }
     
     return NextResponse.json({ success: true });
-  } catch (error) {
+  } catch (err) {
     return NextResponse.json({ error: 'Errore durante il logout' }, { status: 500 });
   }
 } 

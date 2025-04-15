@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 import { EnvelopeIcon, LockClosedIcon, ExclamationCircleIcon } from '@heroicons/react/24/outline';
 import { Input, Button, Card } from '../../components/ui';
 
@@ -23,8 +22,8 @@ export default function LoginPage() {
     try {
       await signIn(email, password);
       router.push('/dashboard');
-    } catch (err: any) {
-      setError(err.message || 'Si è verificato un errore durante l\'accesso');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Si è verificato un errore durante l&apos;accesso');
     } finally {
       setLoading(false);
     }
@@ -120,7 +119,7 @@ export default function LoginPage() {
 
             <div className="mt-6 text-center">
               <p className="text-sm text-gray-600">
-                Contatta l'amministratore per ottenere le credenziali di accesso.
+                Contatta l&apos;amministratore per ottenere le credenziali di accesso.
               </p>
             </div>
           </div>

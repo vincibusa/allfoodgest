@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter, useParams } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import ArticoloForm from '../../../../components/articoli/ArticoloForm';
 import { getArticoloById } from '../../../../services/articoliService';
 import { Articolo } from '../../../../types/articolo';
@@ -11,7 +11,6 @@ export default function ModificaArticoloPage() {
   const params = useParams();
   const id = params.id as string;
   
-  const router = useRouter();
   const [articolo, setArticolo] = useState<Articolo | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -32,8 +31,8 @@ export default function ModificaArticoloPage() {
         } else {
           setArticolo(data);
         }
-      } catch (err: any) {
-        setError(err.message || 'Si è verificato un errore durante il caricamento dell\'articolo');
+      } catch (err: unknown) {
+        setError(err instanceof Error ? err.message : 'Si è verificato un errore durante il caricamento dell\'articolo');
       } finally {
         setLoading(false);
       }

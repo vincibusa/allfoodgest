@@ -24,8 +24,8 @@ export default function ArticoloDetailPage() {
         setLoading(true);
         const data = await getArticoloById(Number(id));
         setArticolo(data);
-      } catch (err: any) {
-        setError(err.message || 'Si è verificato un errore durante il recupero dell\'articolo');
+      } catch (err: unknown) {
+        setError(err instanceof Error ? err.message : 'Si è verificato un errore durante il recupero dell&apos;articolo');
       } finally {
         setLoading(false);
       }
@@ -65,7 +65,7 @@ export default function ArticoloDetailPage() {
         
         <div className="mt-6 text-center py-12">
           <h2 className="text-xl font-semibold text-gray-700">Articolo non trovato</h2>
-          <p className="mt-2 text-gray-500">L'articolo che stai cercando potrebbe essere stato rimosso o non esiste.</p>
+          <p className="mt-2 text-gray-500">L&apos;articolo che stai cercando potrebbe essere stato rimosso o non esiste.</p>
         </div>
       </div>
     );
