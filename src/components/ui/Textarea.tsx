@@ -1,5 +1,5 @@
 import React, { TextareaHTMLAttributes, forwardRef } from 'react';
-import { ExclamationCircleIcon } from '@heroicons/react/24/outline';
+
 import { FieldError } from 'react-hook-form';
 
 export interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
@@ -9,7 +9,7 @@ export interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElemen
 }
 
 export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
-  ({ label, error, className, hint, rows = 5, ...props }, ref) => {
+  ({ label, error,  hint, rows = 5, ...props }, ref) => {
     return (
       <div>
         {label && (

@@ -46,7 +46,7 @@ export async function GET() {
       ultimiArticoli,
       daAggiornare
     });
-  } catch (err) {
+  } catch {
     return NextResponse.json({ error: 'Errore durante il recupero delle statistiche' }, { status: 500 });
   }
 } 

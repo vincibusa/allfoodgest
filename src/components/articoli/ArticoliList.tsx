@@ -13,7 +13,6 @@ interface ArticoliListProps {
 }
 
 export const ArticoliList: React.FC<ArticoliListProps> = ({
-  defaultFiltered = false,
   limit,
   filterPublished,
   showControls = true,

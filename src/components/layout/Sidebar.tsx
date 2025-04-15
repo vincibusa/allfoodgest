@@ -6,9 +6,9 @@ import { usePathname } from 'next/navigation';
 import { useAuth } from '../../context/AuthContext';
 import { 
   HomeIcon, 
-  NewspaperIcon, 
+
   PlusCircleIcon, 
-  ChartBarIcon,
+
   UserIcon,
   Bars3Icon,
   XMarkIcon,
@@ -18,7 +18,7 @@ import {
   DocumentTextIcon,
   ChartPieIcon,
   UsersIcon,
-  GlobeAltIcon
+
 } from '@heroicons/react/24/outline';
 import { Dialog, Transition } from '@headlessui/react';
 

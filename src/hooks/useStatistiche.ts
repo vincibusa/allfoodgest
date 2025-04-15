@@ -6,8 +6,8 @@ export interface StatisticheArticoli {
   articoliPubblicati: number;
   articoliInBozza: number;
   perCategoria: Record<string, number>;
-  ultimiArticoli: any[];
-  daAggiornare: any[];
+  ultimiArticoli: Record<string, unknown>[];
+  daAggiornare: Record<string, unknown>[];
 }
 
 export function useStatistiche() {
@@ -67,8 +67,8 @@ export function useStatistiche() {
         ultimiArticoli: ultimiArticoli || [],
         daAggiornare: daAggiornare || []
       });
-    } catch (err: any) {
-      setError(err.message || 'Errore durante il recupero delle statistiche');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Errore durante il recupero delle statistiche');
       console.error('Errore durante il recupero delle statistiche:', err);
     } finally {
       setLoading(false);

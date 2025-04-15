@@ -84,8 +84,8 @@ export default function ArticoloForm({ articolo, isEditing = false }: ArticoloFo
         await createArticolo(data);
       }
       router.push('/articoli');
-    } catch (err: any) {
-      setError(err.message || 'Si è verificato un errore durante il salvataggio dell\'articolo');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Si è verificato un errore durante il salvataggio dell&apos;articolo');
     } finally {
       setSubmitting(false);
     }
@@ -190,7 +190,7 @@ export default function ArticoloForm({ articolo, isEditing = false }: ArticoloFo
                   Pubblica immediatamente
                 </label>
                 <p className="text-gray-500">
-                  Se non selezionato, l'articolo verrà salvato come bozza.
+                  Se non selezionato, l&apos;articolo verrà salvato come bozza.
                 </p>
               </div>
             </div>

@@ -1,12 +1,11 @@
 import { Fragment } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 import { useAuth } from '../../context/AuthContext';
 import { Menu, Transition } from '@headlessui/react';
 import { 
   UserIcon, 
   BellIcon, 
-  MagnifyingGlassIcon 
+
 } from '@heroicons/react/24/outline';
 
 function classNames(...classes: string[]) {
@@ -15,7 +14,7 @@ function classNames(...classes: string[]) {
 
 export default function Navbar() {
   const { user, signOut } = useAuth();
-  const pathname = usePathname();
+
 
   return (
     <header className="sticky top-0 z-10 bg-white border-b border-gray-200">

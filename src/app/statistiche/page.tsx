@@ -10,8 +10,6 @@ import {
   DocumentTextIcon, 
   CheckCircleIcon, 
   ExclamationCircleIcon,
-  ClockIcon,
-  ArrowUpIcon
 } from '@heroicons/react/24/outline';
 
 type Statistiche = {

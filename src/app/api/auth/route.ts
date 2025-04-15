@@ -44,7 +44,7 @@ export async function POST(request: Request) {
     } else {
       return NextResponse.json({ error: 'Azione non valida' }, { status: 400 });
     }
-  } catch (err) {
+  } catch {
     return NextResponse.json({ error: 'Errore durante l\'autenticazione' }, { status: 500 });
   }
 }
@@ -58,7 +58,7 @@ export async function DELETE() {
     }
     
     return NextResponse.json({ success: true });
-  } catch (err) {
+  } catch {
     return NextResponse.json({ error: 'Errore durante il logout' }, { status: 500 });
   }
 } 

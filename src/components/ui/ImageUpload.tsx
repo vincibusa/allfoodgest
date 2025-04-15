@@ -2,6 +2,7 @@ import React, { useState, useRef, ChangeEvent } from 'react';
 import { PhotoIcon, TrashIcon, ArrowUpTrayIcon } from '@heroicons/react/24/outline';
 import { Button } from './Button';
 import { uploadImmagine } from '../../services/uploadService';
+import Image from 'next/image';
 
 interface ImageUploadProps {
   initialImageUrl?: string;
@@ -29,13 +30,13 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
     
     // Verifica se il file è un'immagine
     if (!file.type.startsWith('image/')) {
-      setError('Il file selezionato non è un\'immagine valida. Sono supportati formati come JPG, PNG, GIF.');
+      setError('Il file selezionato non è un&apos;immagine valida. Sono supportati formati come JPG, PNG, GIF.');
       return;
     }
     
     // Limita la dimensione del file (5MB)
     if (file.size > 5 * 1024 * 1024) {
-      setError('L\'immagine è troppo grande. La dimensione massima consentita è 5MB.');
+      setError('L&apos;immagine è troppo grande. La dimensione massima consentita è 5MB.');
       return;
     }
     
@@ -60,9 +61,9 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
       setImageUrl(uploadedImageUrl);
       onImageUploaded(uploadedImageUrl);
       
-    } catch (error: any) {
-      setError(error.message || 'Si è verificato un errore durante il caricamento dell\'immagine');
-      console.error('Errore durante il caricamento dell\'immagine:', error);
+    } catch (error: unknown) {
+      setError(error instanceof Error ? error.message : 'Si è verificato un errore durante il caricamento dell&apos;immagine');
+      console.error('Errore durante il caricamento dell&apos;immagine:', error);
     } finally {
       setIsUploading(false);
     }
@@ -120,18 +121,23 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
           <div className="space-y-1 text-center">
             <PhotoIcon className="mx-auto h-12 w-12 text-gray-400" />
             <div className="flex text-sm text-gray-600">
-              <p className="pl-1">Trascina un'immagine qui o fai clic per selezionarne una</p>
+              <p className="pl-1">Trascina un&apos;immagine qui o fai clic per selezionarne una</p>
             </div>
             <p className="text-xs text-gray-500">PNG, JPG, GIF fino a 5MB</p>
           </div>
         </div>
       ) : (
         <div className="mt-1 relative rounded-md overflow-hidden border border-gray-300 shadow-sm">
-          <img
-            src={filePreview || imageUrl}
-            alt="Anteprima immagine"
-            className="w-full h-56 object-cover"
-          />
+          <div className="relative w-full h-56">
+            <Image
+              src={filePreview || imageUrl}
+              alt="Anteprima immagine"
+              fill
+              sizes="(max-width: 768px) 100vw, 600px"
+              style={{ objectFit: 'cover' }}
+              priority
+            />
+          </div>
           
           <div className="absolute inset-0 bg-black bg-opacity-50 flex justify-center items-center opacity-0 hover:opacity-100 transition-opacity">
             <Button

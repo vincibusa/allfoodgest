@@ -32,8 +32,8 @@ export function useArticoli(initialArticoli: Articolo[] = []) {
       }
       
       setArticoli(data || []);
-    } catch (err: any) {
-      setError(err.message || 'Errore durante il recupero degli articoli');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Errore durante il recupero degli articoli');
       console.error('Errore durante il recupero degli articoli:', err);
     } finally {
       setLoading(false);
@@ -60,8 +60,8 @@ export function useArticoli(initialArticoli: Articolo[] = []) {
       );
       
       return data as Articolo;
-    } catch (err: any) {
-      setError(err.message || `Errore durante l'aggiornamento dell'articolo con ID ${id}`);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : `Errore durante l'aggiornamento dell'articolo con ID ${id}`);
       console.error(`Errore durante l'aggiornamento dell'articolo con ID ${id}:`, err);
       throw err;
     }
@@ -83,8 +83,8 @@ export function useArticoli(initialArticoli: Articolo[] = []) {
       setArticoli((prevArticoli) => prevArticoli.filter((art) => art.id !== id));
       
       return true;
-    } catch (err: any) {
-      setError(err.message || `Errore durante l'eliminazione dell'articolo con ID ${id}`);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : `Errore durante l'eliminazione dell'articolo con ID ${id}`);
       console.error(`Errore durante l'eliminazione dell'articolo con ID ${id}:`, err);
       throw err;
     }
@@ -107,8 +107,8 @@ export function useArticoli(initialArticoli: Articolo[] = []) {
       setArticoli((prevArticoli) => [data as Articolo, ...prevArticoli]);
       
       return data as Articolo;
-    } catch (err: any) {
-      setError(err.message || "Errore durante la creazione dell'articolo");
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Errore durante la creazione dell'articolo");
       console.error("Errore durante la creazione dell'articolo:", err);
       throw err;
     }

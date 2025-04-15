@@ -1,8 +1,8 @@
 import React from 'react';
 import { Articolo } from '../../types/articolo';
-import { CheckCircleIcon, ClockIcon, CalendarIcon, UserIcon, DocumentTextIcon } from '@heroicons/react/24/outline';
+import { CheckCircleIcon, ClockIcon, CalendarIcon, UserIcon, } from '@heroicons/react/24/outline';
 import Image from 'next/image';
-import { Card } from '../ui';
+
 
 interface ArticoloDetailProps {
   articolo: Articolo;

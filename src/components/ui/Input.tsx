@@ -10,7 +10,7 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ label, error, className, icon, hint, ...props }, ref) => {
+  ({ label, error,  icon, hint, ...props }, ref) => {
     return (
       <div>
         {label && (

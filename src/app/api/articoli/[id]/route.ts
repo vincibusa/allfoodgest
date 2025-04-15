@@ -35,7 +35,7 @@ export async function GET(
     }
     
     return NextResponse.json(data);
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Errore recupero articolo:', error);
     return NextResponse.json({ error: 'Errore durante il recupero dell\'articolo' }, { status: 500 });
   }
@@ -66,7 +66,7 @@ export async function PUT(
     }
     
     return NextResponse.json(data);
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Errore aggiornamento articolo:', error);
     return NextResponse.json({ error: 'Errore durante l\'aggiornamento dell\'articolo' }, { status: 500 });
   }
@@ -94,7 +94,7 @@ export async function DELETE(
     }
     
     return NextResponse.json({ success: true });
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Errore eliminazione articolo:', error);
     return NextResponse.json({ error: 'Errore durante l\'eliminazione dell\'articolo' }, { status: 500 });
   }
@@ -129,7 +129,7 @@ export async function PATCH(
     }
     
     return NextResponse.json(data);
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Errore cambio stato articolo:', error);
     return NextResponse.json({ error: 'Errore durante il cambio di stato dell\'articolo' }, { status: 500 });
   }

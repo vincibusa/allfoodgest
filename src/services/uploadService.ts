@@ -15,7 +15,7 @@ export const uploadImmagine = async (file: File, bucket = 'immagini'): Promise<s
     const filePath = `${fileName}`;
 
     // Carica il file su Supabase Storage
-    const { data, error } = await supabase.storage
+    const { error } = await supabase.storage
       .from(bucket)
       .upload(filePath, file, {
         cacheControl: '3600',
@@ -32,9 +32,9 @@ export const uploadImmagine = async (file: File, bucket = 'immagini'): Promise<s
       .getPublicUrl(filePath);
 
     return publicUrl;
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Errore durante il caricamento dell\'immagine:', error);
-    throw new Error(error.message || 'Errore durante il caricamento dell\'immagine');
+    throw new Error(error instanceof Error ? error.message : 'Errore durante il caricamento dell\'immagine');
   }
 };
 
@@ -64,8 +64,8 @@ export const eliminaImmagine = async (url: string, bucket = 'immagini'): Promise
     }
 
     return true;
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Errore durante l\'eliminazione dell\'immagine:', error);
-    throw new Error(error.message || 'Errore durante l\'eliminazione dell\'immagine');
+    throw new Error(error instanceof Error ? error.message : 'Errore durante l\'eliminazione dell\'immagine');
   }
 }; 
