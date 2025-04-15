@@ -1,36 +1,133 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Gestionale Articoli
 
-## Getting Started
+Un'applicazione Next.js per la gestione degli articoli di giornale con Supabase come backend.
 
-First, run the development server:
+## Requisiti
+
+- Node.js 18+ (consigliato)
+- Account Supabase (gratuito)
+
+## Installazione
+
+1. Clonare il repository
+```bash
+git clone <repository-url>
+cd allfoodgestionale
+```
+
+2. Installare le dipendenze
+```bash
+npm install
+```
+
+## Configurazione di Supabase
+
+1. Creare un nuovo progetto su [Supabase](https://supabase.io)
+
+2. Una volta creato il progetto, andare su Project Settings > API e copiare:
+   - URL del progetto
+   - anon key (chiave pubblica anonima)
+
+3. Creare un file `.env.local` nella root del progetto con le seguenti variabili:
+```
+NEXT_PUBLIC_SUPABASE_URL=your-supabase-url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
+```
+
+4. Nel SQL Editor di Supabase, eseguire le seguenti query per creare la tabella degli articoli:
+
+```sql
+-- Creazione della tabella articoli
+CREATE TABLE articoli (
+    id BIGSERIAL PRIMARY KEY,
+    titolo TEXT NOT NULL,
+    contenuto TEXT NOT NULL,
+    autore TEXT NOT NULL,
+    categoria TEXT NOT NULL,
+    data_pubblicazione DATE NOT NULL,
+    immagine_url TEXT,
+    pubblicato BOOLEAN DEFAULT false,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT now()
+);
+
+-- Aggiunta di un trigger per aggiornare automaticamente updated_at
+CREATE OR REPLACE FUNCTION update_updated_at()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.updated_at = now();
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER articoli_updated_at
+BEFORE UPDATE ON articoli
+FOR EACH ROW
+EXECUTE FUNCTION update_updated_at();
+
+-- Configurazione delle Row Level Security (RLS)
+ALTER TABLE articoli ENABLE ROW LEVEL SECURITY;
+
+-- Policy per consentire l'accesso anonimo in lettura
+CREATE POLICY "Consenti accesso anonimo in lettura" ON articoli
+FOR SELECT USING (true);
+
+-- Policy per consentire l'inserimento, l'aggiornamento e l'eliminazione solo agli utenti autenticati
+CREATE POLICY "Consenti modifica agli utenti autenticati" ON articoli
+FOR ALL USING (auth.role() = 'authenticated');
+```
+
+5. Per configurare l'autenticazione in Supabase:
+   - Vai su Authentication > Settings
+   - Assicurati che sia abilitato "Email Auth"
+   - Nelle impostazioni di Supabase Authentication, puoi configurare le opzioni di conferma email, password, ecc.
+
+6. Creare un utente di test:
+   - Vai su Authentication > Users
+   - Clicca su "Add User"
+   - Inserisci email e password per il tuo utente di test
+
+## Sviluppo
+
+Per avviare il server di sviluppo:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Apri [http://localhost:3000](http://localhost:3000) con il tuo browser per vedere l'applicazione.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Funzionalità
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Autenticazione con email/password tramite Supabase
+- Dashboard con statistiche sugli articoli
+- Gestione completa degli articoli:
+  - Creazione
+  - Modifica
+  - Eliminazione
+  - Pubblicazione/bozza
+- Categorizzazione degli articoli
+- Ricerca e filtraggio degli articoli
 
-## Learn More
+## Struttura del progetto
 
-To learn more about Next.js, take a look at the following resources:
+- `/src/app`: Pagine dell'applicazione (Next.js App Router)
+- `/src/components`: Componenti React riutilizzabili
+- `/src/context`: Context API di React per la gestione dello stato globale
+- `/src/lib`: Utility e configurazioni
+- `/src/services`: Servizi per interagire con Supabase
+- `/src/types`: Definizioni dei tipi TypeScript
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Deploy su Vercel
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+La soluzione più semplice per deployare questa app è utilizzare [Vercel](https://vercel.com), la piattaforma degli sviluppatori di Next.js.
 
-## Deploy on Vercel
+1. Importa il progetto su Vercel
+2. Configura le variabili d'ambiente su Vercel:
+   - `NEXT_PUBLIC_SUPABASE_URL`
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Licenza
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+[MIT](LICENSE)
+# allfoodgest
